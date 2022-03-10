@@ -9,7 +9,7 @@
 // Fluid Simulation for Dummies by Mike Ash
 // https://mikeash.com/pyblog/fluid-simulation-for-dummies.html
 
-final int N = 512;
+final int N = 128;
 final int iter = 4;
 final int SCALE = 1024/N;
 float t = 0;
