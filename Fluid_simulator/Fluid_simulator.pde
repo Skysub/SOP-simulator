@@ -1,13 +1,15 @@
+
 MainLogic mainLogic;
+
 
 void setup() {
   mainLogic = new MainLogic();
   frameRate(144);
-  size(1920, 1080);
+  size(512, 512);
 }
 
 void draw() {
-  background(180);
+  background(0);
   mainLogic.Update();
 }
 

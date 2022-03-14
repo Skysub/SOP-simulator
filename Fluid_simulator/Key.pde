@@ -26,6 +26,10 @@ class Key { //<>//
     toggle = !toggle;
   }
 
+  public void setToggle(boolean x) {
+    toggle = x;
+  }
+
   public boolean getToggle() {
     return toggle;
   }
