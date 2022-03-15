@@ -7,13 +7,12 @@ class MainLogic {
   int test, punkter, ialt;
   boolean quick;
   int scale;
-  boolean UI = false;
+  boolean UI = true;
 
   MainLogic() {
     kb = new Keyboard();
-    int res = 550;
-    scale =  int(width/res);
-    fieldSim = new FieldSim(res, 10, scale);
+    int res = 256;
+    fieldSim = new FieldSim(res, 5);
   }
 
   void Update() {
@@ -31,11 +30,11 @@ class MainLogic {
       if (!kb.getToggle(84))fieldSim.Draw(kb.getToggle(86), kb.getToggle(32), kb.getToggle(67), UI);
       else ; //Til partikkel baseret algoritme
     }
-    MakePNGs(800);
+    //MakePNGs(800);
   }
 
   void HandleControls() {
-    if (kb.Shift(82))fieldSim = new FieldSim(128, 10, scale);
+    if (kb.Shift(82))fieldSim = new FieldSim(128, 5);
     if (kb.getToggle(86) && kb.Shift(67)) kb.setToggle(86, false);
     if (kb.getToggle(67) && kb.Shift(86)) kb.setToggle(67, false);
   }
@@ -50,7 +49,7 @@ class MainLogic {
       testResults = new float[100]; //fra 10 til 1100
       start = false;
       test = 1;
-      fieldSim = new FieldSim(test*10, 5, scale);
+      fieldSim = new FieldSim(test*10, 5);
     }
 
     ialt += fieldSim.Update();
@@ -59,12 +58,13 @@ class MainLogic {
     if (punkter > 100) {
       testResults[test-1] = ialt/punkter/1f;
       test++;
-      fieldSim = new FieldSim(test*10, 5, scale);
+      fieldSim = new FieldSim(test*10, 5);
       punkter = 0;
+      println("Resolution:" + (test*10)+" x "+(test*10));
     }   
 
     if (!kb.getToggle(16))fieldSim.Draw(kb.getToggle(86), false, kb.getToggle(32), UI);
-    text("N: "+test*10, 10, 180);
+    //text("N: "+test*10, 10, 180);
 
     if (test > 100) {
       testRun = false;
@@ -92,7 +92,7 @@ class MainLogic {
 
     for (int i = 1; i<101; i++) {
       println("Resolution:" + (i*10)+" x "+(i*10));
-      fieldSim = new FieldSim(i*10, 5, scale);
+      fieldSim = new FieldSim(i*10, 5);
 
       //int tid = millis();
       float punkter = 0;
@@ -101,7 +101,7 @@ class MainLogic {
        ialt += fieldSim.Update();
        punkter++;
        }*/
-      for (int j = 0; j<500; j++) {        
+      for (int j = 0; j<100; j++) {        
         ialt = ialt + fieldSim.Update();
         //delay(10);
         //println(ialt);
@@ -132,7 +132,7 @@ class MainLogic {
 
     for (int i = 1; i<101; i++) {
       println("Iterations: "+i);
-      fieldSim = new FieldSim(64, i, scale);
+      fieldSim = new FieldSim(64, i);
 
       //int tid = millis();
       float punkter = 0;
@@ -168,7 +168,6 @@ class MainLogic {
     if (frameCount < frames+1) {
       saveFrame("images/IMG_####.png");
       println(frameCount);
-    }
-    else exit();
+    } else exit();
   }
 }

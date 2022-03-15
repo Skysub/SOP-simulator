@@ -9,10 +9,10 @@ class FieldSim {
   int timer = 0, timerR = 0;
   long timerS = 0;
 
-  FieldSim(int N, int iter, int scale) {
+  FieldSim(int N, int iter) {
     this.N = N;
     this.iter = iter;
-    this.scale = scale;
+    this.scale = int(width/N);
 
     fluid = new Fluid(0.2, 0, 0.0000001, N, iter, scale);
   }
@@ -22,7 +22,7 @@ class FieldSim {
     int cy = int(0.5*height/scale);
     for (int i = -1; i <= 1; i++) {
       for (int j = -1; j <= 1; j++) {
-        fluid.addDensity(cx+i, cy+j, random(200, 350));
+        fluid.addDensity(cx+i, cy+j, random(50, 150));
         //fluid.addDensity(cx+i, cy+j, 100);
       }
     }
@@ -54,7 +54,7 @@ class FieldSim {
     else fluid.RenderVelF();
     timerR = millis()-timerR;
 
-    if (UI)    {
+    if (UI) {
       fill(255);
       stroke(255);
       if (paused)text("Sim time:      "+0f, 10, 90);
@@ -68,6 +68,7 @@ class FieldSim {
       //text("Frametime: "+int(floor(timer/1000f))+"."+(timer-1000*int(floor(timer/1000f))),10, 45);
       text("Frametime:   "+(timer/1000f), 10, 45);
       text("FrameRate:   "+floor(1f/((timer/1000f))), 500, 45);
+      text("Resolution: "+N+"x"+N, 10, 180);
       //println(timer);
       timer = millis();
     }
