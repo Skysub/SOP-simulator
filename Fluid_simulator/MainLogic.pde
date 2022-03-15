@@ -11,7 +11,7 @@ class MainLogic {
 
   MainLogic() {
     kb = new Keyboard();
-    int res = 512;
+    int res = 550;
     scale =  int(width/res);
     fieldSim = new FieldSim(res, 10, scale);
   }
@@ -31,7 +31,7 @@ class MainLogic {
       if (!kb.getToggle(84))fieldSim.Draw(kb.getToggle(86), kb.getToggle(32), kb.getToggle(67), UI);
       else ; //Til partikkel baseret algoritme
     }
-    MakePNGs(1200);
+    MakePNGs(800);
   }
 
   void HandleControls() {

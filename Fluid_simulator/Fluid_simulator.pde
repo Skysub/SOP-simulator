@@ -5,7 +5,7 @@ MainLogic mainLogic;
 void setup() {
   mainLogic = new MainLogic();
   frameRate(144);
-  size(512, 512);
+  size(550, 250);
 }
 
 void draw() {
