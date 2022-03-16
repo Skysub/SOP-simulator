@@ -13,10 +13,11 @@ class Particle {
     return out;
   }
 
-  void Draw() {
+  void Draw(boolean red) {
     fill(255);
+    if(red) fill(255,100,100);
     stroke(0);
-    circle(pos.x-0.5, pos.y-0.5, 50);
+    circle(pos.x-5, pos.y-5, 10);
     //println(pos);
     //println("drew a circle " + millis());
   }

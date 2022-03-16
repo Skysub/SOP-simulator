@@ -27,14 +27,14 @@ class Grid {
     grid[PosToIndex(pos)[0]][PosToIndex(pos)[1]].append(index);
   }
 
-  ArrayList<Particle> getPossibleNeighbors(PVector pos) {
+  ArrayList<Particle> getPossibleNeighbors(PVector pos, int index) {
     ArrayList<Particle> possibleNeighbors = new ArrayList<Particle>();
     int[] indexes = PosToIndex(pos);
     for (int i = -1; i < 2; i++) {
       for (int j = -1; j < 2; j++) {
-        if (indexes[0]+i > -1 && indexes[0]+i < 20 && indexes[1]+j > -1 && indexes[1]+j < 20) {
+        if (indexes[0]+i > -1 && indexes[0]+i < 32 && indexes[1]+j > -1 && indexes[1]+j < 32) {
           for (int s = 0; s < grid[indexes[0]+i][indexes[1]+j].size(); s++) {
-            possibleNeighbors.add(usePart.Copy(master.particles.get(s)));
+            if (grid[indexes[0]+i][indexes[1]+j].get(s) != index) possibleNeighbors.add(usePart.Copy(master.particles.get(grid[indexes[0]+i][indexes[1]+j].get(s))));
           }
         }
       }
