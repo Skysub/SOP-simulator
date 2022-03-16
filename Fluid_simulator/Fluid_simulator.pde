@@ -11,6 +11,7 @@ void setup() {
 void draw() {
   background(0);
   mainLogic.Update();
+  println(frameCount);
 }
 
 void keyPressed() {

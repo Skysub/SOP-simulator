@@ -16,6 +16,8 @@ class MainLogic {
   }
 
   void Update() {
+
+
     if (kb.Shift(10)) testRun = true; 
     if (kb.Shift(81)) QuickRunTest();
     if (kb.Shift(87)) RunTestIte();
@@ -30,6 +32,8 @@ class MainLogic {
       if (!kb.getToggle(84))fieldSim.Draw(kb.getToggle(86), kb.getToggle(32), kb.getToggle(67), UI);
       else ; //Til partikkel baseret algoritme
     }
+    if (frameCount == 400) saveFrame("f400_medHigh.png");
+    //if (frameCount == 150) saveFrame("f150.png");
     //MakePNGs(800);
   }
 

@@ -14,7 +14,7 @@ class FieldSim {
     this.iter = iter;
     this.scale = int(width/N);
 
-    fluid = new Fluid(0.2, 0, 0.0000001, N, iter, scale);
+    fluid = new Fluid(0.2, 0, 0.000005, N, iter, scale);
   }
 
   long Update() {
