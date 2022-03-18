@@ -1,4 +1,4 @@
-class ParSim { //<>// //<>// //<>// //<>// //<>//
+class ParSim { //<>// //<>// //<>// //<>// //<>// //<>//
 
   ArrayList<Particle> particles;
   ArrayList<ArrayList<Particle>> neighbors;
@@ -7,7 +7,7 @@ class ParSim { //<>// //<>// //<>// //<>// //<>//
   IntList reds;
 
   float timeStep = 0.03; //Amount of time passed pr. simulation step
-  float radius = 20; //radius of the particles
+  float radius = 10; //radius of the particles
   float viscLD = 1; //viscosity linear dependency
   float viscQD = 0; //viscosity quadratic dependency
   float k = 10;  //Stiffness used in DoubleDensityRelaxation
@@ -67,12 +67,13 @@ class ParSim { //<>// //<>// //<>// //<>// //<>//
   }
 
   void SimStep() {
-    if(frameCount > 100)ApplyExternalForces();
+    if (frameCount > 100)ApplyExternalForces();
     ApplyViscosity();
-    AdvanceParticles(); //<>//
+    AdvanceParticles();
     UpdateNeighbors();
     DoubleDensityRelaxation();
     //ResolveCollisions();
+    //UpdateVelocity();
   }
 
   //Step 1
@@ -120,7 +121,7 @@ class ParSim { //<>// //<>// //<>// //<>// //<>//
     for (int i = 0; i < particles.size(); i++) {
       neighbors.get(i).clear();
       for (int j = 0; j < grid.getPossibleNeighbors(particles.get(i).getPos(), i).size(); j++) {
-        if (new PVector(particles.get(i).getPos().x, particles.get(i).getPos().y).sub(grid.getPossibleNeighbors(particles.get(i).getPos(), i).get(j).getPos()).mag() < radius) {
+        if (new PVector(particles.get(i).getPos().x, particles.get(i).getPos().y).sub(         grid.getPossibleNeighbors(particles.get(i).getPos(), i).get(j).getPos()).mag() < radius         ) {
           neighbors.get(i).add(grid.getPossibleNeighbors(particles.get(i).getPos(), i).get(j));
         }
       }

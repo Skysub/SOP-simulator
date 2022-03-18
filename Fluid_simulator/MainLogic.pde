@@ -12,10 +12,12 @@ class MainLogic {
   MainLogic() {
     kb = new Keyboard();
     int res = 256;
-    fieldSim = new FieldSim(res, 5);
+    fieldSim = new FieldSim(res, 10);
   }
 
   void Update() {
+
+    //specielTest();
 
 
     if (kb.Shift(10)) testRun = true; 
@@ -27,12 +29,12 @@ class MainLogic {
       HandleControls();
 
       if (!kb.getToggle(32)) {
-        if (!kb.getToggle(84))fieldSim.Update();
+        if (!kb.getToggle(84))println(fieldSim.Update()/1000000);
       }
       if (!kb.getToggle(84))fieldSim.Draw(kb.getToggle(86), kb.getToggle(32), kb.getToggle(67), UI);
       else ; //Til partikkel baseret algoritme
     }
-    if (frameCount == 400) saveFrame("f400_medHigh.png");
+    //if (frameCount == 200) saveFrame("f200_UltraHigh.png");
     //if (frameCount == 150) saveFrame("f150.png");
     //MakePNGs(800);
   }
@@ -173,5 +175,14 @@ class MainLogic {
       saveFrame("images/IMG_####.png");
       println(frameCount);
     } else exit();
+  }
+
+  void specielTest() {
+    for (int i = 0; i < 1000; i++) {
+      ialt += fieldSim.Update()/1000000;
+      println(i);
+    }
+    println("Resultat: "+ialt/1000);
+    exit();
   }
 }
