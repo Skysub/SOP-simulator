@@ -5,15 +5,15 @@ class MainLogic {
 
   MainLogic() {
     kb = new Keyboard();
-    parSim = new ParSim(10000);
+    parSim = new ParSim(300);
     //QuickRunTest();
   }
 
   void Update() {
 
-    specielTest();
+    //specielTest();
     parSim.Draw();
-    println(parSim.Update()/1000000);
+    parSim.Update();
 
     //MakePNGs(600);
   }

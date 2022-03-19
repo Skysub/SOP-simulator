@@ -45,6 +45,10 @@ class Grid {
     return possibleNeighbors;
   }
 
+  IntList getPI(int x, int y) {
+    return grid[x][y];
+  }
+
   int[] PosToIndex(PVector pos) {
     int[] out = new int[2];
     out[0] = floor(pos.x/(1024/gridSize));

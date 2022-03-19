@@ -2,7 +2,7 @@ MainLogic mainLogic;
 
 void setup() {
   mainLogic = new MainLogic();
-  frameRate(144);
+  frameRate(30);
   size(1024, 1024);
 }
 

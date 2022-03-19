@@ -7,7 +7,7 @@ class ParSim { //<>// //<>// //<>// //<>// //<>// //<>//
   IntList reds;
 
   float timeStep = 0.03; //Amount of time passed pr. simulation step
-  float radius = 10; //radius of the particles
+  float radius = 20; //radius of the particles
   float viscLD = 1; //viscosity linear dependency
   float viscQD = 0; //viscosity quadratic dependency
   float k = 10;  //Stiffness used in DoubleDensityRelaxation
@@ -18,6 +18,10 @@ class ParSim { //<>// //<>// //<>// //<>// //<>// //<>//
   int timer = 0, timerR = 0;
   long timerS = 0;
 
+  boolean tyngdekraft = true, red = false;
+  PVector gravity = new PVector(0, 1);
+  float colPush = 3;
+
   ParSim(int particlesTotal) {
     reds = new IntList();
     this.particlesTotal = particlesTotal;
@@ -27,7 +31,7 @@ class ParSim { //<>// //<>// //<>// //<>// //<>// //<>//
     distanceField = new DistanceField();
 
     for (int i = 0; i < particlesTotal; i++) {    
-      particles.add(new Particle(random(0, 1024), random(0, 1024), 0, 0));
+      particles.add(new Particle(random(40, 990), random(40, 990), 0, 0));
     }
 
     for (int i = 0; i < particlesTotal; i++) {    
@@ -67,22 +71,28 @@ class ParSim { //<>// //<>// //<>// //<>// //<>// //<>//
   }
 
   void SimStep() {
-    if (frameCount > 100)ApplyExternalForces();
+    ApplyExternalForces();
     ApplyViscosity();
     AdvanceParticles();
     UpdateNeighbors();
     DoubleDensityRelaxation();
-    //ResolveCollisions();
-    //UpdateVelocity();
+
+    UpdateVelocity();
+    ResolveCollisions();
   }
 
   //Step 1
   void ApplyExternalForces() {
     for (int i = 0; i < particles.size(); i++) {
-      if (grid.PosToIndex(particles.get(i).getPos())[0]>9 && grid.PosToIndex(particles.get(i).getPos())[1]>9 && grid.PosToIndex(particles.get(i).getPos())[0]<12 && grid.PosToIndex(particles.get(i).getPos())[1]<12) {
-        particles.get(i).setVel(new PVector(10, 0).add(particles.get(i).getVel()));
-        //println(particles.get(i).getVel());
-        reds.append(i);
+      if (red) {
+        if (grid.PosToIndex(particles.get(i).getPos())[0]>9 && grid.PosToIndex(particles.get(i).getPos())[1]>9 && grid.PosToIndex(particles.get(i).getPos())[0]<12 && grid.PosToIndex(particles.get(i).getPos())[1]<12) {
+          particles.get(i).setVel(new PVector(10, 0).add(particles.get(i).getVel()));
+          //println(particles.get(i).getVel());
+          reds.append(i);
+        }
+      }
+      if (tyngdekraft) {
+        particles.get(i).setVel(particles.get(i).getVel().add(gravity));
       }
     }
   }
@@ -121,7 +131,7 @@ class ParSim { //<>// //<>// //<>// //<>// //<>// //<>//
     for (int i = 0; i < particles.size(); i++) {
       neighbors.get(i).clear();
       for (int j = 0; j < grid.getPossibleNeighbors(particles.get(i).getPos(), i).size(); j++) {
-        if (new PVector(particles.get(i).getPos().x, particles.get(i).getPos().y).sub(         grid.getPossibleNeighbors(particles.get(i).getPos(), i).get(j).getPos()).mag() < radius         ) {
+        if (new PVector(particles.get(i).getPos().x, particles.get(i).getPos().y).sub(         grid.getPossibleNeighbors(particles.get(i).getPos(), i).get(j).getPos()).mag() < radius) {
           neighbors.get(i).add(grid.getPossibleNeighbors(particles.get(i).getPos(), i).get(j));
         }
       }
@@ -160,7 +170,32 @@ class ParSim { //<>// //<>// //<>// //<>// //<>// //<>//
 
   //Step 6
   void ResolveCollisions() {
-    for (int i = 0; i < particles.size(); i++) {
+    IntList t;
+    for (int i = 0; i < 32; i++) {
+      for (int j = 0; j < 32; j++) {
+        if (i == 0) {
+          t = grid.getPI(i, j);
+          for (int s = 0; s < t.size(); s++) {
+            particles.get(t.get(s)).setVel(colPush, 0);
+          }
+        } else if (i == 31) {
+          t = grid.getPI(i, j);
+          for (int s = 0; s < t.size(); s++) {
+            particles.get(t.get(s)).setVel(-colPush, 0);
+          }
+        }
+        if (j==0) {
+          t = grid.getPI(i, j);
+          for (int s = 0; s < t.size(); s++) {
+            particles.get(t.get(s)).setVel(0, colPush);
+          }
+        } else if (j==31) {
+          t = grid.getPI(i, j);
+          for (int s = 0; s < t.size(); s++) {
+            particles.get(t.get(s)).setVel(0, -colPush);
+          }
+        }
+      }
     }
   }
 
